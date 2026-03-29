@@ -1,17 +1,15 @@
 USE cloud_yearbook;
 
-INSERT INTO user (id,username,password,nickname,role,status,create_time,update_time,phone,email,graduation_destination,personal_profile)
+-- 为兼容已有历史库（字段长度可能与 schema.sql 不一致），用户初始化仅写入核心字段，
+-- 避免在旧字段长度约束下触发 Data too long。
+INSERT INTO user (id,username,password,nickname,role,status,create_time,update_time)
 VALUES
-(1,'admin','$2a$10$HraW/NJfju4JqpQZm32pt.W3rCHQ6SW4Ar0q3xY2AfG4QubvS2Jri',LEFT('管理员', 4),'ADMIN',0,NOW(),NOW(),'13800000000','admin@school.cn','校友会','欢迎来到云同学录'),
-(2,'zhangsan','$2a$10$HraW/NJfju4JqpQZm32pt.W3rCHQ6SW4Ar0q3xY2AfG4QubvS2Jri',LEFT('张三', 4),'USER',0,NOW(),NOW(),'13900000000','zhangsan@school.cn','互联网公司','热爱篮球与摄影')
+(1,'admin','$2a$10$HraW/NJfju4JqpQZm32pt.W3rCHQ6SW4Ar0q3xY2AfG4QubvS2Jri',LEFT('管理员', 4),'ADMIN',0,NOW(),NOW()),
+(2,'zhangsan','$2a$10$HraW/NJfju4JqpQZm32pt.W3rCHQ6SW4Ar0q3xY2AfG4QubvS2Jri',LEFT('张三', 4),'USER',0,NOW(),NOW())
 ON DUPLICATE KEY UPDATE
   nickname=LEFT(VALUES(nickname), 4),
   role=VALUES(role),
   status=VALUES(status),
-  phone=VALUES(phone),
-  email=VALUES(email),
-  graduation_destination=VALUES(graduation_destination),
-  personal_profile=VALUES(personal_profile),
   update_time=NOW();
 
 INSERT INTO `class` (id,class_name,grade,description,creator_id,create_time,update_time)
