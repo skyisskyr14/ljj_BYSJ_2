@@ -2,9 +2,17 @@ USE cloud_yearbook;
 
 INSERT INTO user (id,username,password,nickname,role,status,create_time,update_time,phone,email,graduation_destination,personal_profile)
 VALUES
-(1,'admin','$2a$10$HraW/NJfju4JqpQZm32pt.W3rCHQ6SW4Ar0q3xY2AfG4QubvS2Jri','系统管理员','ADMIN',0,NOW(),NOW(),'13800000000','admin@school.cn','校友会','欢迎来到云同学录'),
-(2,'zhangsan','$2a$10$HraW/NJfju4JqpQZm32pt.W3rCHQ6SW4Ar0q3xY2AfG4QubvS2Jri','张三','USER',0,NOW(),NOW(),'13900000000','zhangsan@school.cn','互联网公司','热爱篮球与摄影')
-ON DUPLICATE KEY UPDATE nickname=VALUES(nickname);
+(1,'admin','$2a$10$HraW/NJfju4JqpQZm32pt.W3rCHQ6SW4Ar0q3xY2AfG4QubvS2Jri',LEFT('管理员', 4),'ADMIN',0,NOW(),NOW(),'13800000000','admin@school.cn','校友会','欢迎来到云同学录'),
+(2,'zhangsan','$2a$10$HraW/NJfju4JqpQZm32pt.W3rCHQ6SW4Ar0q3xY2AfG4QubvS2Jri',LEFT('张三', 4),'USER',0,NOW(),NOW(),'13900000000','zhangsan@school.cn','互联网公司','热爱篮球与摄影')
+ON DUPLICATE KEY UPDATE
+  nickname=LEFT(VALUES(nickname), 4),
+  role=VALUES(role),
+  status=VALUES(status),
+  phone=VALUES(phone),
+  email=VALUES(email),
+  graduation_destination=VALUES(graduation_destination),
+  personal_profile=VALUES(personal_profile),
+  update_time=NOW();
 
 INSERT INTO `class` (id,class_name,grade,description,creator_id,create_time,update_time)
 VALUES (1,'计算机科学1班','2020级','软件工程方向班级',1,NOW(),NOW())

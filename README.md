@@ -33,9 +33,10 @@
 - Redis 6+
 
 ### 2) 初始化数据库
+MySQL 账号密码示例：`root / rRr1352-`
 ```bash
-mysql -uroot -proot < sql/schema.sql
-mysql -uroot -proot < sql/seed.sql
+mysql -uroot -prRr1352- < sql/schema.sql
+mysql -uroot -prRr1352- < sql/seed.sql
 ```
 
 ### 3) 启动后端
